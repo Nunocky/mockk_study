@@ -6,8 +6,16 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.rules.activityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.example.myapplication.di.PreferenceModule
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ActivityComponent
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import dagger.hilt.android.testing.UninstallModules
+import io.mockk.every
+import io.mockk.mockk
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -15,12 +23,24 @@ import org.junit.runner.RunWith
 
 @HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
+@UninstallModules(PreferenceModule::class)
 class MainActivityTest1 {
     @get:Rule(order = 0)
     var hiltRule = HiltAndroidRule(this)
 
     @get:Rule(order = 1)
     val activityScenarioRule = activityScenarioRule<MainActivity>()
+
+    @Module
+    @InstallIn(ActivityComponent::class)
+    object PreferenceModule {
+        private val mock = mockk<Preference>().apply {
+            every { hoge } answers { true }  // <- TODO ここをどうにかしたい
+        }
+
+        @Provides
+        fun providePrefs(): Preference = mock
+    }
 
     @Before
     fun setup() {
@@ -29,13 +49,13 @@ class MainActivityTest1 {
 
     @Test
     fun test1_true() {
-        activityScenarioRule.scenario.onActivity { }
+        // TODO preference.hogeは常に trueを返して欲しい
         onView(withId(R.id.textView)).check(matches(withText("True")))
     }
 
     @Test
     fun test1_false() {
-        activityScenarioRule.scenario.onActivity { }
+        // TODO preference.hogeは常に falseを返して欲しい
         onView(withId(R.id.textView)).check(matches(withText("False")))
     }
 }
