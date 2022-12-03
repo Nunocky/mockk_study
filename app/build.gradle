@@ -17,7 +17,8 @@ android {
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+//        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "com.example.myapplication.CustomTestRunner"
     }
 
     buildTypes {
@@ -36,9 +37,12 @@ android {
     viewBinding {
         enabled = true
     }
-//    buildFeatures() {
-//        viewBinding true
-//    }
+
+    packagingOptions {
+        exclude 'META-INF/LICENSE.md'
+        exclude 'META-INF/LICENSE-notice.md'
+    }
+
 }
 
 dependencies {
@@ -54,8 +58,24 @@ dependencies {
     implementation "androidx.fragment:fragment-ktx:1.5.4"
 
     testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test:core-ktx:1.5.0'
+    androidTestImplementation 'androidx.test:runner:1.5.1'
+    androidTestImplementation 'androidx.test:rules:1.5.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.4'
+    androidTestImplementation 'androidx.test.ext:junit-ktx:1.1.4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
+//    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.5.0'
+//    androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0'
+
+//    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.1.0'
+//    androidTestImplementation 'androidx.test.espresso:espresso-accessibility:3.1.0'
+//    androidTestImplementation 'androidx.test.espresso:espresso-web:3.1.0'
+//    androidTestImplementation 'androidx.test.espresso.idling:idling-concurrent:3.1.0'
+
+
+    androidTestImplementation 'com.google.dagger:hilt-android-testing:2.44'
+    kaptAndroidTest 'com.google.dagger:hilt-android-compiler:2.44'
+
     androidTestImplementation "io.mockk:mockk-android:1.13.3"
     androidTestImplementation "io.mockk:mockk-agent:1.13.3"
 }
