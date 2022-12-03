@@ -24,7 +24,7 @@ import org.junit.runner.RunWith
 @HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
 @UninstallModules(PreferenceModule::class)
-class MainActivityTest1 {
+class MainActivityTest2 {
     @get:Rule(order = 0)
     var hiltRule = HiltAndroidRule(this)
 
@@ -35,7 +35,7 @@ class MainActivityTest1 {
     @InstallIn(ActivityComponent::class)
     object PreferenceModule {
         private val mock = mockk<Preference>().apply {
-            every { hoge } answers { true }
+            every { hoge } answers { false }
         }
 
         @Provides
@@ -48,7 +48,7 @@ class MainActivityTest1 {
     }
 
     @Test
-    fun test1_true() {
-        onView(withId(R.id.textView)).check(matches(withText("True")))
+    fun test1_false() {
+        onView(withId(R.id.textView)).check(matches(withText("False")))
     }
 }
